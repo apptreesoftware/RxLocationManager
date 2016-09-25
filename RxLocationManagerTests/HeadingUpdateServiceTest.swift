@@ -51,7 +51,7 @@ import RxLocationManager
             expect(self.bridge.updatingLocation).to(beFalse())
         }
         func testHeadingObservable() {
-            let xcTestExpectation = self.expectationWithDescription("Get one heading update")
+            let xcTestExpectation = self.expectation(description: "Get one heading update")
             headingUpdateService.heading
                 .subscribeNext{
                     heading in
@@ -60,7 +60,7 @@ import RxLocationManager
                 }
                 .addDisposableTo(disposeBag)
             self.bridge.didUpdateHeading!(dummyLocationManager, Headings.north)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
     }
 #endif

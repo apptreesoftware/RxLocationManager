@@ -27,7 +27,7 @@ import RxLocationManager
         }
         
         func testLocatingObservableWithoutError() {
-            let xcTestExpectation = self.expectationWithDescription("GotSeriesOfLocations")
+            let xcTestExpectation = self.expectation(description: "GotSeriesOfLocations")
             var n = 1
             significantLocationUpdateService.locating
                 .subscribe{
@@ -58,11 +58,11 @@ import RxLocationManager
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.London])
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.Johnannesburg])
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.Moscow])
-            self.waitForExpectationsWithTimeout(100, handler:nil)
+            self.waitForExpectations(timeout: 100, handler:nil)
         }
         
         func testLocatingObservableWithError() {
-            let xcTextExpectation = self.expectationWithDescription("GotSeriesOfLocationsAndError")
+            let xcTextExpectation = self.expectation(description: "GotSeriesOfLocationsAndError")
             var n = 1
             significantLocationUpdateService.locating
                 .subscribe{
@@ -94,9 +94,9 @@ import RxLocationManager
                 .addDisposableTo(disposeBag)
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.London])
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.Johnannesburg])
-            bridge.didFailWithError!(dummyLocationManager, CLError.Network.toNSError())
+            bridge.didFailWithError!(dummyLocationManager, CLError.Code.Network.toNSError())
             bridge.didUpdateLocations!(dummyLocationManager, [Locations.Moscow])
-            self.waitForExpectationsWithTimeout(100, handler:nil)
+            self.waitForExpectations(timeout: 100, handler:nil)
         }
     }
 #endif

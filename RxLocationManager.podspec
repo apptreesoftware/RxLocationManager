@@ -1,9 +1,9 @@
 Pod::Spec.new do |spec|
     spec.name = "RxLocationManager"
-    spec.version = "1.0.1"
+    spec.version = "2.0"
     spec.summary = "Reactive Style Location Manager for iOS, macOS, watchOS, tvOS"
     spec.description = "If you programs in functional reactive style in iOS, RxLocationManager makes location management a lot easier comparing to CLLocationManager"
-    spec.homepage = "https://github.com/popduke/RxLocationManager"
+    spec.homepage = "https://github.com/apptreesoftware/RxLocationManager"
     spec.license = { type: 'MIT', file: 'LICENSE.md' }
     spec.authors = { "Yonny Hao" => 'popduke@gmail.com' }
 
@@ -14,8 +14,8 @@ Pod::Spec.new do |spec|
 
     spec.frameworks  = "Foundation", "CoreLocation"
     spec.requires_arc = true
-    spec.source = { git: "https://github.com/popduke/RxLocationManager.git", tag: spec.version.to_s }
+    spec.source = { git: "https://github.com/apptreesoftware/RxLocationManager.git", tag: spec.version.to_s }
     spec.source_files = 'sources/*.{h,swift}'
 
-    spec.dependency "RxSwift", "~> 2.0"
+    spec.dependency "RxSwift", "~> 3.0.0-beta.1"
 end

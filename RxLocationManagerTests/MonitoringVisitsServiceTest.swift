@@ -28,7 +28,7 @@ class MonitoringVisitsServiceTest: XCTestCase {
     }
 
     func testVisitsObservable() {
-        let xcTestExpectation = self.expectationWithDescription("Get one visited place")
+        let xcTestExpectation = self.expectation(description: "Get one visited place")
         monitoringVisitsService.visiting
             .subscribeNext{
                 visit in
@@ -37,7 +37,7 @@ class MonitoringVisitsServiceTest: XCTestCase {
             }
             .addDisposableTo(disposeBag)
         self.bridge.didVisit!(dummyLocationManager, Visits.one)
-        self.waitForExpectationsWithTimeout(50, handler: nil)
+        self.waitForExpectations(timeout: 50, handler: nil)
 
     }
 }

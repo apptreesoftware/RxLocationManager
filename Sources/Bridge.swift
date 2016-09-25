@@ -38,15 +38,15 @@ class CLLocationManagerBridge: CLLocationManager, CLLocationManagerDelegate{
         self.delegate = self
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        didFailWithError?(manager, error)
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        didFailWithError?(manager, error as NSError)
     }
     
-    func locationManager(manager: CLLocationManager, didChangeAuthorizationStatus status: CLAuthorizationStatus) {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         didChangeAuthorizationStatus?(manager, status)
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         didUpdateLocations?(manager, locations)
     }
 }
@@ -54,23 +54,23 @@ class CLLocationManagerBridge: CLLocationManager, CLLocationManagerDelegate{
 #if os(iOS) || os(OSX)
 extension CLLocationManagerBridge{
 
-    func locationManager(manager: CLLocationManager, didDetermineState state: CLRegionState, forRegion region: CLRegion) {
+    @objc(locationManager:didDetermineState:forRegion:) func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
     didDetermineState?(manager, state, region)
     }
     
-    func locationManager(manager: CLLocationManager, didEnterRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
     didEnterRegion?(manager, region)
     }
     
-    func locationManager(manager: CLLocationManager, didExitRegion region: CLRegion) {
+    func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
     didExitRegion?(manager, region)
     }
     
-    func locationManager(manager: CLLocationManager, monitoringDidFailForRegion region: CLRegion?, withError error: NSError) {
-    monitoringDidFailForRegion?(manager, region, error)
+    @objc(locationManager:monitoringDidFailForRegion:withError:) func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
+    monitoringDidFailForRegion?(manager, region, error as NSError)
     }
     
-    func locationManager(manager: CLLocationManager, didStartMonitoringForRegion region: CLRegion) {
+    @objc(locationManager:didStartMonitoringForRegion:) func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
     didStartMonitoringForRegion?(manager, region)
     }
 }
@@ -79,35 +79,35 @@ extension CLLocationManagerBridge{
 #if os(iOS)
 extension CLLocationManagerBridge{
 
-    func locationManager(manager: CLLocationManager, didFinishDeferredUpdatesWithError error: NSError?) {
-    didFinishDeferredUpdatesWithError?(manager, error)
+    func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
+    didFinishDeferredUpdatesWithError?(manager, error as NSError?)
     }
     
-    func locationManagerDidPauseLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
     didPausedUpdate?(manager)
     }
     
-    func locationManagerDidResumeLocationUpdates(manager: CLLocationManager) {
+    func locationManagerDidResumeLocationUpdates(_ manager: CLLocationManager) {
     didResumeUpdate?(manager)
     }
     
-    func locationManagerShouldDisplayHeadingCalibration(manager: CLLocationManager) -> Bool {
+    func locationManagerShouldDisplayHeadingCalibration(_ manager: CLLocationManager) -> Bool {
     return displayHeadingCalibration
     }
     
-    func locationManager(manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
     didUpdateHeading?(manager, newHeading)
     }
     
-    func locationManager(manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], inRegion region: CLBeaconRegion) {
+    @objc(locationManager:didRangeBeacons:inRegion:) func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
     didRangeBeaconsInRegion?(manager, beacons, region)
     }
     
-    func locationManager(manager: CLLocationManager, rangingBeaconsDidFailForRegion region: CLBeaconRegion, withError error: NSError){
-    rangingBeaconsDidFailForRegion?(manager, region, error)
+    @objc(locationManager:rangingBeaconsDidFailForRegion:withError:) func locationManager(_ manager: CLLocationManager, rangingBeaconsDidFailFor region: CLBeaconRegion, withError error: Error){
+    rangingBeaconsDidFailForRegion?(manager, region, error as NSError)
     }
     
-    func locationManager(manager: CLLocationManager, didVisit visit: CLVisit) {
+    func locationManager(_ manager: CLLocationManager, didVisit visit: CLVisit) {
     didVisit?(manager, visit)
     }
 }

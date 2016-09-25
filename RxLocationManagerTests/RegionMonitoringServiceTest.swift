@@ -72,7 +72,7 @@ import RxLocationManager
         
         func testMonitoredRegionsObservable(){
             self.bridge.currentMonitoredRegions.insert(GeoRegions.London)
-            let xcTestExpectation = self.expectationWithDescription("Get one monitored region")
+            let xcTestExpectation = self.expectation(description: "Get one monitored region")
             var n = 1
             regionMonitoringService.monitoredRegions
                 .subscribeNext{
@@ -89,12 +89,12 @@ import RxLocationManager
             
             self.bridge.currentMonitoredRegions.insert(GeoRegions.Johnannesburg)
             self.bridge.didStartMonitoringForRegion!(dummyLocationManager, GeoRegions.Johnannesburg)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         
         func testRegionEnteringEventObservable(){
-            let xcTestExpectation = self.expectationWithDescription("Get one monitored region enter event")
+            let xcTestExpectation = self.expectation(description: "Get one monitored region enter event")
             regionMonitoringService.entering
                 .subscribeNext{
                     region in
@@ -103,11 +103,11 @@ import RxLocationManager
                 }
                 .addDisposableTo(disposeBag)
             self.bridge.didEnterRegion!(dummyLocationManager, GeoRegions.London)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         func testRegionExitingEventObservable(){
-            let xcTestExpectation = self.expectationWithDescription("Get one monitored region exit event")
+            let xcTestExpectation = self.expectation(description: "Get one monitored region exit event")
             regionMonitoringService.exiting
                 .subscribeNext{
                     region in
@@ -116,11 +116,11 @@ import RxLocationManager
                 }
                 .addDisposableTo(disposeBag)
             self.bridge.didExitRegion!(dummyLocationManager, GeoRegions.London)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         func testDeterminedRegionStateObservable(){
-            let xcTestExpectation = self.expectationWithDescription("Determined state for one monitored region")
+            let xcTestExpectation = self.expectation(description: "Determined state for one monitored region")
             regionMonitoringService.determinedRegionState
                 .subscribeNext{
                     region, state in
@@ -130,11 +130,11 @@ import RxLocationManager
                 }
                 .addDisposableTo(disposeBag)
             self.bridge.didDetermineState!(dummyLocationManager, CLRegionState.Inside,GeoRegions.London)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         func testErrorObservableWithMonitoringError(){
-            let xcTestExpectation = self.expectationWithDescription("Get error during monitoring region")
+            let xcTestExpectation = self.expectation(description: "Get error during monitoring region")
             regionMonitoringService.error
                 .subscribeNext{
                     region, error in
@@ -143,13 +143,13 @@ import RxLocationManager
                     xcTestExpectation.fulfill()
                 }
                 .addDisposableTo(disposeBag)
-            self.bridge.monitoringDidFailForRegion!(dummyLocationManager, GeoRegions.London, CLError.RegionMonitoringFailure.toNSError())
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.bridge.monitoringDidFailForRegion!(dummyLocationManager, GeoRegions.London, CLError.Code.RegionMonitoringFailure.toNSError())
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         #if os(iOS)
         func testErrorObservableWithRangingError(){
-            let xcTestExpectation = self.expectationWithDescription("Get error during ranging beacons")
+            let xcTestExpectation = self.expectation(description: "Get error during ranging beacons")
             regionMonitoringService.error.subscribeNext{
                 region, error in
                 expect(region!).to(equal(BeaconRegions.one))
@@ -157,12 +157,12 @@ import RxLocationManager
                 xcTestExpectation.fulfill()
             }
             .addDisposableTo(disposeBag)
-            self.bridge.rangingBeaconsDidFailForRegion!(dummyLocationManager, BeaconRegions.one, CLError.RangingFailure.toNSError())
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.bridge.rangingBeaconsDidFailForRegion!(dummyLocationManager, BeaconRegions.one, CLError.Code.RangingFailure.toNSError())
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         
         func testRangingObservable(){
-            let xcTestExpectation = self.expectationWithDescription("Get ranged beacons")
+            let xcTestExpectation = self.expectation(description: "Get ranged beacons")
             regionMonitoringService.ranging
                 .subscribeNext{
                     beacons, beaconRegion in
@@ -172,7 +172,7 @@ import RxLocationManager
                 }
                 .addDisposableTo(disposeBag)
             self.bridge.didRangeBeaconsInRegion!(dummyLocationManager, [], BeaconRegions.one)
-            self.waitForExpectationsWithTimeout(50, handler: nil)
+            self.waitForExpectations(timeout: 50, handler: nil)
         }
         #endif
     }

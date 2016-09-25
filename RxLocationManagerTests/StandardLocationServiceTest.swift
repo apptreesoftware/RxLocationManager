@@ -80,7 +80,7 @@ class StandardLocationServiceTest: XCTestCase{
     
     #if os(iOS) || os(watchOS) || os(tvOS)
     func testCurrentLocationObservable(){
-        let xcTextExpectation1 = self.expectationWithDescription("GotLocationAndComplete")
+        let xcTextExpectation1 = self.expectation(description: "GotLocationAndComplete")
         standardLocationService.located
             .subscribe{
                 event in
@@ -95,9 +95,9 @@ class StandardLocationServiceTest: XCTestCase{
             }
             .addDisposableTo(disposeBag)
         bridgeForLocation.didUpdateLocations!(dummyLocationManager, [Locations.London])
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        self.waitForExpectations(timeout: 5, handler:nil)
         
-        let xcTextExpectation2 = self.expectationWithDescription("GotError")
+        let xcTextExpectation2 = self.expectation(description: "GotError")
         standardLocationService.located
             .subscribe{
                 event in
@@ -115,13 +115,13 @@ class StandardLocationServiceTest: XCTestCase{
                 }
             }
             .addDisposableTo(disposeBag)
-        bridgeForLocation.didFailWithError!(dummyLocationManager, CLError.LocationUnknown.toNSError())
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        bridgeForLocation.didFailWithError!(dummyLocationManager, CLError.Code.LocationUnknown.toNSError())
+        self.waitForExpectations(timeout: 5, handler:nil)
     }
     #endif
     #if os(iOS) || os(OSX)
     func testLocatingObservable(){
-        let xcTextExpectation = self.expectationWithDescription("GotSeriesOfLocations")
+        let xcTextExpectation = self.expectation(description: "GotSeriesOfLocations")
         var n = 1
         standardLocationService.locating
             .subscribe{
@@ -152,11 +152,11 @@ class StandardLocationServiceTest: XCTestCase{
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.London])
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Johnannesburg])
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Moscow])
-        self.waitForExpectationsWithTimeout(100, handler:nil)
+        self.waitForExpectations(timeout: 100, handler:nil)
     }
     
     func testLocatingObservableWithIgnorableError(){
-        let xcTextExpectation = self.expectationWithDescription("GotSeriesOfLocationsAndIgnoreLocationUnknownError")
+        let xcTextExpectation = self.expectation(description: "GotSeriesOfLocationsAndIgnoreLocationUnknownError")
         var n = 1
         standardLocationService.locating
             .subscribe{
@@ -184,16 +184,16 @@ class StandardLocationServiceTest: XCTestCase{
             }
             .addDisposableTo(disposeBag)
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.London])
-        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.LocationUnknown.toNSError())
+        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Code.LocationUnknown.toNSError())
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Johnannesburg])
-        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.LocationUnknown.toNSError())
+        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Code.LocationUnknown.toNSError())
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Moscow])
-        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.LocationUnknown.toNSError())
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Code.LocationUnknown.toNSError())
+        self.waitForExpectations(timeout: 5, handler:nil)
     }
     
     func testLocatingObservableWithError(){
-        let xcTextExpectation = self.expectationWithDescription("GotSeriesOfLocationsAndNonIgnorableError")
+        let xcTextExpectation = self.expectation(description: "GotSeriesOfLocationsAndNonIgnorableError")
         var n = 1
         standardLocationService.locating
             .subscribe{
@@ -220,17 +220,17 @@ class StandardLocationServiceTest: XCTestCase{
             }
             .addDisposableTo(disposeBag)
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.London])
-        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.LocationUnknown.toNSError())
+        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Code.LocationUnknown.toNSError())
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Johnannesburg])
-        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Denied.toNSError())
+        bridgeForLocating.didFailWithError!(dummyLocationManager, CLError.Code.Denied.toNSError())
         bridgeForLocating.didUpdateLocations!(dummyLocationManager, [Locations.Moscow])
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        self.waitForExpectations(timeout: 5, handler:nil)
     }
     #endif
     
     #if os(iOS)
     func testPausedObservable(){
-        let xcTextExpectation = self.expectationWithDescription("ObservableOfIsPaused")
+        let xcTextExpectation = self.expectation(description: "ObservableOfIsPaused")
         var n = 1
         standardLocationService.isPaused
             .subscribe{
@@ -257,11 +257,11 @@ class StandardLocationServiceTest: XCTestCase{
             .addDisposableTo(disposeBag)
         bridgeForLocating.didPausedUpdate!(dummyLocationManager)
         bridgeForLocating.didResumeUpdate!(dummyLocationManager)
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        self.waitForExpectations(timeout: 5, handler:nil)
     }
     
     func testDeferredUpdateErrorObservable(){
-        let xcTextExpectation = self.expectationWithDescription("ObservableOfIsPaused")
+        let xcTextExpectation = self.expectation(description: "ObservableOfIsPaused")
         standardLocationService.deferredUpdateFinished
             .subscribe{
                 event in
@@ -276,8 +276,8 @@ class StandardLocationServiceTest: XCTestCase{
                 }
             }
             .addDisposableTo(disposeBag)
-        bridgeForLocating.didFinishDeferredUpdatesWithError!(dummyLocationManager, CLError.DeferredAccuracyTooLow.toNSError())
-        self.waitForExpectationsWithTimeout(5, handler:nil)
+        bridgeForLocating.didFinishDeferredUpdatesWithError!(dummyLocationManager, CLError.Code.DeferredAccuracyTooLow.toNSError())
+        self.waitForExpectations(timeout: 5, handler:nil)
     }
     #endif
 }
